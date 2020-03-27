@@ -52,14 +52,12 @@ mac_data[['new_ratings','old_ratings']] = mac_data[['new_ratings','old_ratings']
 #comparison the number of new or old books
 for i in mac_data.index:
     if mac_data.loc[i,'new_ratings'] >= mac_data.loc[i,'old_ratings']:
-        mac_data.loc[i,'old_ratings'] = 'old'
         mac_data.loc[i,'new_ratings'] = 'new'
     else:
         mac_data.loc[i,'new_ratings'] = 'old'
-        mac_data.loc[i,'old_ratings'] = 'new'
-mac_data.rename({'new_ratings': 'new_book_ratings','old_ratings': 'old_book_ratings'},axis=1,inplace=True)
+mac_data.rename({'new_ratings': 'new_book_ratings'},axis=1,inplace=True)
 mac_data.reset_index(inplace=True)
-mac_data.drop(['authors'], axis=1, inplace=True)
+mac_data.drop(['authors','old_ratings'], axis=1, inplace=True)
 # Figure distribution of favourite book between the number of page and books ratings count
 
 # sns.set_context('paper')
@@ -75,8 +73,8 @@ plt.savefig(f'plots/favourite_book_distribution.png')
 plt.show()
 plt.clf()
 # Convert categorical variable into dummy variables
-m_data = pd.get_dummies(mac_data, columns=['new_book_ratings','old_book_ratings','favourite'], drop_first=True)
-m_data.rename({'new_book_ratings_old': 'newbook_ratings_count','old_book_ratings_old': 'oldbook_ratings_count','favourite_yes': 'favourite'},axis=1,inplace=True)
+m_data = pd.get_dummies(mac_data, columns=['new_book_ratings','favourite'], drop_first=True)
+m_data.rename({'new_book_ratings_old': 'newbook_ratings_count','favourite_yes': 'favourite'},axis=1,inplace=True)
 corr = m_data.corr()
 mask = np.triu(np.ones_like(corr, dtype=np.bool))
 cmap = sns.diverging_palette(240,10, as_cmap=True)
