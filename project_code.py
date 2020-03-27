@@ -64,8 +64,9 @@ mac_data.drop(['authors'], axis=1, inplace=True)
 
 # sns.set_context('paper')
 sns.color_palette('bright')
-sns.catplot(x='new_book_ratings', y='page_number', hue='favourite',
-            data=mac_data, kind='swarm', palette=dict(yes='salmon',  no='indigo'))
+g=sns.catplot(x='new_book_ratings', y='page_number', hue='favourite',
+            data=mac_data, kind='swarm', palette=dict(yes='salmon',  no='indigo'),legend_out=False)
+plt.legend(loc='upper left',title='favourite')
 plt.xlabel('Books Ratings Count')
 plt.ylabel('The Number of Page')
 plt.title('Favorite Book Distribution in Features')
